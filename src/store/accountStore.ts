@@ -44,12 +44,21 @@ export const useAccountStore = create<AccountState>((set) => ({
 
   removeTransaction: (id: string) =>
     set((state) => {
-      const newTransactions = state.transactions.filter(
-        (transaction) => transaction.id !== id,
+      const transactionToRemove = state.transactions.find(
+        (transaction) => transaction.id === id
       );
+      if (!transactionToRemove) return state;
+
+      const newBalance =
+        transactionToRemove.type === "income"
+          ? state.balance - transactionToRemove.amount
+          : state.balance + transactionToRemove.amount;
+
       return {
-        transactions: newTransactions,
-        balance: calculateBalance(newTransactions),
+        transactions: state.transactions.filter(
+          (transaction) => transaction.id !== id
+        ),
+        balance: newBalance,
       };
     }),
 
