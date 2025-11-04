@@ -76,6 +76,6 @@ export const WithIcon: Story = {
 export const Error: Story = {
   args: {
     variant: 'error',
-    children: 'Deletar',
+    children: 'Remover',
   },
 };

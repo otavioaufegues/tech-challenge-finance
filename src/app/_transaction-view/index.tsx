@@ -57,7 +57,7 @@ export function TransactionView({ transaction, onEdit, onDelete }: TransactionVi
                         onClick={() => onDelete(transaction)}
                         className="flex-1 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                     >
-                        Deletar
+                        Remover
                     </Button>
                 </div>
             </div>

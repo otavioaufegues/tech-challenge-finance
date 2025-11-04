@@ -87,7 +87,7 @@ export default function Transactions() {
                           onClick={() => handleView(transaction)}
                           className="text-xs px-2 py-1"
                         >
-                          Ver
+                          Ver detalhes
                         </Button>
                         <Button
                           variant="outline"
@@ -101,7 +101,7 @@ export default function Transactions() {
                           onClick={() => handleDelete(transaction)}
                           className="text-xs px-2 py-1 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                         >
-                          Deletar
+                          Remover
                         </Button>
                       </div>
                     </td>
