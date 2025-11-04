@@ -1,19 +1,31 @@
 # Tech Challenge Finance
 
-Aplicação de gerenciamento financeiro desenvolvida com Next.js e Design System.
+Aplicação de gerenciamento financeiro desenvolvida com Next.js.
+
+
+## Requisitos
+
+- Environment: [Nodejs 24](https://nodejs.org/en/download/)
+- Package manager: [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ## 🚀 Como Executar
+
+### Instalação de dependências
+
+```shell
+# Install dependencies
+npm install
+
+# Install storybook dependencies
+npx storybook@latest init
+```
 
 ### Desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+```
 A aplicação estará disponível em [http://localhost:3000](http://localhost:3000)
 
 ##  Documentação de Componentes (Storybook)
@@ -47,7 +59,7 @@ A versão estática será gerada na pasta `storybook-static/`
 - **Layout**
   - `Card` - Card para agrupar conteúdo
   - `Header` - Cabeçalho da aplicação
-   - `Modal` - Modal para exibir conteúdo em overlay
+  - `Modal` - Modal para exibir conteúdo em overlay
 
 ### Criando Novas Stories
 
