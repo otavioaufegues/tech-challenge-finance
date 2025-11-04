@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './index';
 
-// Mock function for actions
 const fn = () => {};
 
 const meta = {
@@ -32,7 +31,7 @@ const meta = {
       description: 'Desabilita o botão',
     },
   },
-  args: { onClick: fn() },
+  args: { onClick: fn },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -80,4 +79,3 @@ export const Error: Story = {
     children: 'Deletar',
   },
 };
-

@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Modal } from '@/layout/modal';
-import { Button } from '../button/index';
+import { Button } from '../../components/button/index';
 
-// Mock function for actions
 const fn = () => {};
 
 const meta = {

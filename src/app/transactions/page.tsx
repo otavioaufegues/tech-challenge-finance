@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@/components/button";
 import { Modal } from "@/layout/modal";
 import { TransactionForm } from "@/app/_transaction-form";
+import { TransactionView } from "../_transaction-view";
 
 export default function Transactions() {
   const { transactions, removeTransaction } = useAccountStore();
@@ -63,11 +64,10 @@ export default function Transactions() {
                   <tr key={transaction.id} className="border-b last:border-b-0 hover:bg-gray-50 transition-colors">
                     <td className="py-3 px-4 text-gray-700">{transaction.description}</td>
                     <td className="py-3 px-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        transaction.type === 'income' 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-red-100 text-red-700'
-                      }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${transaction.type === 'income'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
+                        }`}>
                         {transaction.type === 'income' ? 'Receita' : 'Despesa'}
                       </span>
                     </td>
@@ -82,22 +82,22 @@ export default function Transactions() {
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex justify-center gap-2">
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           onClick={() => handleView(transaction)}
                           className="text-xs px-2 py-1"
                         >
                           Ver
                         </Button>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           onClick={() => handleEdit(transaction)}
                           className="text-xs px-2 py-1"
                         >
                           Editar
                         </Button>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           onClick={() => handleDelete(transaction)}
                           className="text-xs px-2 py-1 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                         >
@@ -113,7 +113,6 @@ export default function Transactions() {
         )}
       </Card>
 
-      {/* Modal de edição */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <h2 className="text-xl font-bold text-gray-700 mb-4">
           Editar Transação
@@ -121,75 +120,23 @@ export default function Transactions() {
         <TransactionForm onSuccess={handleCloseModal} transactionToEdit={editingTransaction} />
       </Modal>
 
-      {/* Modal de visualização */}
-      <Modal 
-        isOpen={!!selectedTransaction} 
+      <Modal
+        isOpen={!!selectedTransaction}
         onClose={() => setSelectedTransaction(null)}
       >
-        {selectedTransaction && (
-          <>
-            <h2 className="text-xl font-bold text-gray-700 mb-4">
-              Detalhes da Transação
-            </h2>
-            <div className="space-y-3">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Descrição</label>
-                <p className="mt-1 text-gray-900">{selectedTransaction.description}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Tipo</label>
-                <p className="mt-1">
-                  <span className={`px-2 py-1 rounded-full text-sm font-medium ${
-                    selectedTransaction.type === 'income' 
-                      ? 'bg-green-100 text-green-700' 
-                      : 'bg-red-100 text-red-700'
-                  }`}>
-                    {selectedTransaction.type === 'income' ? 'Receita' : 'Despesa'}
-                  </span>
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Valor</label>
-                <p className={`mt-1 text-xl font-bold ${selectedTransaction.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                  {selectedTransaction.type === 'expense' && '- '}
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                  }).format(selectedTransaction.amount)}
-                </p>
-              </div>
-              <div className="pt-4 flex gap-2">
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setEditingTransaction(selectedTransaction);
-                    setSelectedTransaction(null);
-                    setIsModalOpen(true);
-                  }}
-                  className="flex-1"
-                >
-                  Editar
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    if (confirm(`Tem certeza que deseja excluir a transação "${selectedTransaction.description}"?`)) {
-                      removeTransaction(selectedTransaction.id);
-                      setSelectedTransaction(null);
-                    }
-                  }}
-                  className="flex-1 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
-                >
-                  Deletar
-                </Button>
-              </div>
-            </div>
-          </>
-        )}
+        {selectedTransaction &&
+          <TransactionView
+            transaction={selectedTransaction}
+            onEdit={() => {
+              handleEdit(selectedTransaction);
+              setSelectedTransaction(null);
+            }}
+            onDelete={() => {
+              handleDelete(selectedTransaction)
+              setSelectedTransaction(null);
+            }} />
+        }
       </Modal>
     </main>
   );
 }
-
-
-

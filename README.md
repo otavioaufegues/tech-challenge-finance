@@ -42,17 +42,18 @@ A versão estática será gerada na pasta `storybook-static/`
 
 - **Components**
   - `Button` - Botão com variantes (primary, secondary, outline)
-  - `Modal` - Modal para exibir conteúdo em overlay
+  - `TextInput` - Campo para inserir valores
   
 - **Layout**
   - `Card` - Card para agrupar conteúdo
   - `Header` - Cabeçalho da aplicação
+   - `Modal` - Modal para exibir conteúdo em overlay
 
 ### Criando Novas Stories
 
 Para documentar um novo componente, crie um arquivo `ComponentName.stories.tsx` na mesma pasta do componente. Veja exemplos em:
 - `src/components/button/Button.stories.tsx`
-- `src/components/modal/Modal.stories.tsx`
+- `src/layout/modal/Modal.stories.tsx`
 - `src/layout/card/Card.stories.tsx`
 
 
@@ -70,14 +71,17 @@ Para documentar um novo componente, crie um arquivo `ComponentName.stories.tsx` 
 src/
 ├── app/              # Páginas e rotas (App Router)
 │   ├── page.tsx      # Home page
+│   └── layout        # Header padrão 
 │   └── transactions/ # Página de listagem de transações
+│   └── _transaction-form/ # Formulário de nova transação / editar transação
+│   └── _transaction-view/ # Modal para visualizar detalhes da transação
 ├── components/        # Componentes reutilizáveis
 │   ├── button/
-│   ├── modal/
-│   └── transaction-form.tsx
+│   ├── textInput/
 ├── layout/           # Componentes de layout
 │   ├── card/
 │   └── header/
+│   ├── modal/
 └── store/            # Estado global (Zustand)
     └── accountStore.ts
 ```
