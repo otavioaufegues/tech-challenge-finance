@@ -86,15 +86,7 @@ export default function Home() {
                     currency: 'BRL',
                   }).format(transaction.amount)}
                 </span>
-                <Button variant="outline" onClick={() => handleViewDetails(transaction)}>
-                  Detalhes
-                </Button>
-                <Button variant="outline" onClick={() => handleEdit(transaction)}>
-                  Editar
-                </Button>
-                <Button variant="error" onClick={() => handleRemove(transaction.id)}>
-                  Remover
-                </Button>
+               
               </div>
             </li>
           ))}
@@ -114,41 +106,8 @@ export default function Home() {
         }} transactionToEdit={editingTransaction} />
       </Modal>
 
-      <Modal isOpen={isConfirmModalOpen} onClose={() => setIsConfirmModalOpen(false)}>
-        <h2 className="text-xl font-bold text-gray-700 mb-4">Confirmar Remoção</h2>
-        <p className="text-gray-600 mb-6">Tem certeza que deseja remover esta transação?</p>
-        <div className="flex justify-end gap-4">
-          <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)}>
-            Cancelar
-          </Button>
-          <Button variant="error" onClick={confirmRemove}>
-            Confirmar
-          </Button>
-        </div>
-      </Modal>
 
-      <Modal isOpen={isDetailsModalOpen} onClose={() => setIsDetailsModalOpen(false)}>
-        {viewingTransaction && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">Detalhes da Transação</h2>
-            <div className="space-y-3 text-gray-700">
-              <p><strong>Descrição:</strong> {viewingTransaction.description}</p>
-              <p><strong>Valor:</strong>
-                <span className={`font-semibold ${viewingTransaction.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                  {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(viewingTransaction.amount)}
-                </span>
-              </p>
-              <p><strong>Tipo:</strong> {viewingTransaction.type === 'income' ? 'Receita' : 'Despesa'}</p>
-              <p><strong>Data:</strong> {new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long' }).format(new Date(viewingTransaction.date))}</p>
-            </div>
-            <div className="flex justify-end mt-8">
-              <Button onClick={() => setIsDetailsModalOpen(false)}>
-                Fechar
-              </Button>
-            </div>
-          </div>
-        )}
-      </Modal>
+
     </main>
   );
 }
