@@ -6,7 +6,7 @@ import { Button } from '../../components/button/index';
 const fn = () => {};
 
 const meta = {
-  title: 'Components/Modal',
+  title: 'Layout/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',
