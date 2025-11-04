@@ -11,6 +11,12 @@ import { TransactionView } from "../_transaction-view";
 
 export default function Transactions() {
   const { transactions, removeTransaction } = useAccountStore();
+  const sortedTransactions = [...transactions].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [transactionToRemove, setTransactionToRemove] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
@@ -24,9 +30,16 @@ export default function Transactions() {
     setSelectedTransaction(transaction);
   };
 
-  const handleDelete = (transaction: Transaction) => {
-    if (confirm(`Tem certeza que deseja excluir a transação "${transaction.description}"?`)) {
-      removeTransaction(transaction.id);
+ const handleRemove = (transaction: Transaction) => {
+    setTransactionToRemove(transaction.id);
+    setIsConfirmModalOpen(true);
+  };
+
+   const confirmRemove = () => {
+    if (transactionToRemove) {
+      removeTransaction(transactionToRemove);
+      setTransactionToRemove(null);
+      setIsConfirmModalOpen(false);
     }
   };
 
@@ -56,11 +69,12 @@ export default function Transactions() {
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Descrição</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Tipo</th>
                   <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Valor</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Data</th>
                   <th className="text-center py-3 px-4 text-sm font-semibold text-gray-700">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {transactions.map((transaction) => (
+                {sortedTransactions.map((transaction) => (
                   <tr key={transaction.id} className="border-b last:border-b-0 hover:bg-gray-50 transition-colors">
                     <td className="py-3 px-4 text-gray-700">{transaction.description}</td>
                     <td className="py-3 px-4">
@@ -78,6 +92,11 @@ export default function Transactions() {
                           style: 'currency',
                           currency: 'BRL',
                         }).format(transaction.amount)}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-gray-700">
+                      <span>
+                        {new Date(transaction.date).toLocaleDateString('pt-BR')}
                       </span>
                     </td>
                     <td className="py-3 px-4">
@@ -98,7 +117,7 @@ export default function Transactions() {
                         </Button>
                         <Button
                           variant="outline"
-                          onClick={() => handleDelete(transaction)}
+                          onClick={() => handleRemove(transaction)}
                           className="text-xs px-2 py-1 text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                         >
                           Remover
@@ -132,10 +151,23 @@ export default function Transactions() {
               setSelectedTransaction(null);
             }}
             onDelete={() => {
-              handleDelete(selectedTransaction)
+              handleRemove(selectedTransaction)
               setSelectedTransaction(null);
             }} />
         }
+      </Modal>
+
+      <Modal isOpen={isConfirmModalOpen} onClose={() => setIsConfirmModalOpen(false)}>
+        <h2 className="text-xl font-bold text-gray-700 mb-4">Confirmar Remoção</h2>
+        <p className="text-gray-600 mb-6">Tem certeza que deseja remover esta transação?</p>
+        <div className="flex justify-end gap-4">
+          <Button variant="outline" onClick={() => setIsConfirmModalOpen(false)}>
+            Cancelar
+          </Button>
+          <Button variant="error" onClick={confirmRemove}>
+            Confirmar
+          </Button>
+        </div>
       </Modal>
     </main>
   );

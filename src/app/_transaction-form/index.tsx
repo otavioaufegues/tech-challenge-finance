@@ -13,16 +13,19 @@ export function TransactionForm({ onSuccess, transactionToEdit }: TransactionFor
     const { addTransaction, editTransaction } = useAccountStore();
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
+    const [date, setDate] = useState('');
     const [type, setType] = useState<'income' | 'expense'>('expense');
 
     useEffect(() => {
         if (transactionToEdit) {
             setDescription(transactionToEdit.description);
             setAmount(transactionToEdit.amount.toString());
+            setDate(new Date(transactionToEdit.date).toISOString().split('T')[0]);
             setType(transactionToEdit.type);
         } else {
             setDescription('');
             setAmount('');
+            setDate(new Date().toISOString().split('T')[0]);
             setType('expense');
         }
     }, [transactionToEdit]);
@@ -31,7 +34,7 @@ export function TransactionForm({ onSuccess, transactionToEdit }: TransactionFor
         e.preventDefault();
 
         const numericAmount = parseFloat(amount);
-        if (!description || isNaN(numericAmount) || numericAmount <= 0) {
+        if (!description || isNaN(numericAmount) || numericAmount <= 0 || !date) {
             alert('Por favor, preencha todos os campos corretamente.'); 
             return;
         }
@@ -42,6 +45,7 @@ export function TransactionForm({ onSuccess, transactionToEdit }: TransactionFor
                 description,
                 amount: numericAmount,
                 type,
+                date: new Date(`${date}T00:00:00`),
             });
         } else {
             addTransaction({
@@ -49,7 +53,7 @@ export function TransactionForm({ onSuccess, transactionToEdit }: TransactionFor
                 description,
                 amount: numericAmount,
                 type,
-                date: new Date(),
+                date: new Date(`${date}T00:00:00`),
             });
         }
 
@@ -75,11 +79,27 @@ export function TransactionForm({ onSuccess, transactionToEdit }: TransactionFor
                     type="number"
                     id="amount"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*([.,]\d{0,2})?$/.test(value)) {
+                            setAmount(value);
+                        }
+                    }}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     placeholder="0,00"
                     step="0.01"
                     min="0.01"
+                    required
+                />
+            </div>
+            <div>
+                <label htmlFor="date" className="block text-sm font-medium text-gray-700">Data</label>
+                <input
+                    type="date"
+                    id="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     required
                 />
             </div>
