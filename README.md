@@ -54,6 +54,7 @@ A versão estática será gerada na pasta `storybook-static/`
 
 - **Components**
   - `Button` - Botão com variantes (primary, secondary, outline)
+  - `Datepicker` - Campo para selecionar datas no calendário
   - `TextInput` - Campo para inserir valores
   
 - **Layout**
@@ -89,6 +90,7 @@ src/
 │   └── _transaction-view/ # Modal para visualizar detalhes da transação
 ├── components/        # Componentes reutilizáveis
 │   ├── button/
+│   ├── datePicker/
 │   ├── textInput/
 ├── layout/           # Componentes de layout
 │   ├── card/
